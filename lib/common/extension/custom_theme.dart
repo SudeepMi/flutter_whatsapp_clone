@@ -9,47 +9,53 @@ extension ExtendedTheme on BuildContext {
 
 class CustomTheme extends ThemeExtension<CustomTheme> {
   static const lightMode = CustomTheme(
-      circleImageColor: Color(0xFF25D366),
-      greyColor: CustomColors.greyLight,
-      blueColor: CustomColors.blueLight,
-      langBtnBgColor: Color(0xFFF7F8FA),
-      langBtnHgColor: Color(0xFFE8E8ED));
+    circleImageColor: Color(0xFF25D366),
+    greyColor: CustomColors.greyLight,
+    blueColor: CustomColors.blueLight,
+    langBtnBgColor: Color(0xFFF7F8FA),
+    langBtnHgColor: Color(0xFFE8E8ED),
+    authAppBarTextColor: CustomColors.greenLight,
+  );
 
   static const darkMode = CustomTheme(
-      circleImageColor: CustomColors.greenDark,
-      greyColor: CustomColors.greyDark,
-      blueColor: CustomColors.blueDark,
-      langBtnBgColor: Color(0xFF182229),
-      langBtnHgColor: Color(0xFF09141A));
+    circleImageColor: CustomColors.greenDark,
+    greyColor: CustomColors.greyDark,
+    blueColor: CustomColors.blueDark,
+    langBtnBgColor: Color(0xFF182229),
+    langBtnHgColor: Color(0xFF09141A),
+    authAppBarTextColor: Color(0xFFE9EDEF),
+  );
 
   final Color? circleImageColor;
   final Color? greyColor;
   final Color? blueColor;
   final Color? langBtnBgColor;
   final Color? langBtnHgColor;
+  final Color? authAppBarTextColor;
 
   const CustomTheme(
       {required this.circleImageColor,
       required this.greyColor,
+      required this.authAppBarTextColor,
       required this.blueColor,
       required this.langBtnBgColor,
       required this.langBtnHgColor});
 
   @override
-  ThemeExtension<CustomTheme> copyWith({
-    Color? circleImageColor,
-    Color? greyColor,
-    Color? blueColor,
-    Color? langBtnBgColor,
-    Color? langBtnHgColor,
-  }) {
+  ThemeExtension<CustomTheme> copyWith(
+      {Color? circleImageColor,
+      Color? greyColor,
+      Color? blueColor,
+      Color? langBtnBgColor,
+      Color? langBtnHgColor,
+      Color? authAppBarTextColor}) {
     return CustomTheme(
-      circleImageColor: circleImageColor ?? this.circleImageColor,
-      greyColor: greyColor ?? this.greyColor,
-      blueColor: blueColor ?? this.blueColor,
-      langBtnBgColor: langBtnBgColor ?? this.langBtnBgColor,
-      langBtnHgColor: langBtnHgColor ?? this.langBtnHgColor,
-    );
+        circleImageColor: circleImageColor ?? this.circleImageColor,
+        greyColor: greyColor ?? this.greyColor,
+        blueColor: blueColor ?? this.blueColor,
+        langBtnBgColor: langBtnBgColor ?? this.langBtnBgColor,
+        langBtnHgColor: langBtnHgColor ?? this.langBtnHgColor,
+        authAppBarTextColor: authAppBarTextColor ?? this.authAppBarTextColor);
   }
 
   @override
@@ -62,6 +68,8 @@ class CustomTheme extends ThemeExtension<CustomTheme> {
       blueColor: Color.lerp(blueColor, other.blueColor, t),
       langBtnBgColor: Color.lerp(langBtnBgColor, other.langBtnBgColor, t),
       langBtnHgColor: Color.lerp(langBtnHgColor, other.langBtnHgColor, t),
+      authAppBarTextColor:
+          Color.lerp(authAppBarTextColor, other.authAppBarTextColor, t),
     );
   }
 }
