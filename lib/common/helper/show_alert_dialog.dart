@@ -11,8 +11,19 @@ showAlertDialog(
           message,
           style: TextStyle(
             color: context.theme.greyColor,
+            fontSize: 22,
           ),
         ),
+        contentPadding: const EdgeInsets.fromLTRB(20, 20, 10, 10),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              btnTxt ?? "OK",
+              style: TextStyle(color: context.theme.blueColor),
+            ),
+          )
+        ],
       );
     },
   );

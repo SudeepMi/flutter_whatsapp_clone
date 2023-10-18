@@ -3,6 +3,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_messenger/common/extension/custom_theme.dart';
+import 'package:whatsapp_messenger/common/helper/show_alert_dialog.dart';
 import 'package:whatsapp_messenger/common/utils/colors.dart';
 import 'package:whatsapp_messenger/common/widgets/custom_icon_button.dart';
 import 'package:whatsapp_messenger/features/auth/widgets/custom_text_field.dart';
@@ -19,6 +20,20 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController countryNameController;
   late TextEditingController countryCodeController;
   late TextEditingController phoneNumberController;
+
+  sendCodeToPhone() {
+    final phone = phoneNumberController.text;
+    // final name = countryNameController.text;
+
+    if (phone.length < 9) {
+      return showAlertDialog(
+          context: context, message: "phone number is not valid");
+    }
+    if (phone.isEmpty) {
+      return showAlertDialog(
+          context: context, message: "phone number is not valid");
+    }
+  }
 
   showCountryCodePicker() {
     showCountryPicker(
@@ -164,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElevatedButton(
-        onPressed: () {},
+        onPressed: sendCodeToPhone,
         text: 'NEXT',
         buttonWidth: 90,
       ),
