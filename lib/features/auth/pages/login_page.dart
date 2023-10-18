@@ -1,7 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_messenger/common/extension/custom_theme.dart';
 import 'package:whatsapp_messenger/common/utils/colors.dart';
+import 'package:whatsapp_messenger/common/widgets/custom_icon_button.dart';
 import 'package:whatsapp_messenger/features/auth/widgets/custom_text_field.dart';
+import 'package:whatsapp_messenger/features/welcome/widgets/elevated_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,10 +20,44 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController countryCodeController;
   late TextEditingController phoneNumberController;
 
+  showCountryCodePicker() {
+    showCountryPicker(
+      context: context,
+      onSelect: (country) {
+        countryCodeController.text = country.phoneCode;
+        countryNameController.text = country.name;
+      },
+      showPhoneCode: true,
+      favorite: ['NEP'],
+      countryListTheme: CountryListThemeData(
+        bottomSheetHeight: 600,
+        backgroundColor: Theme.of(context).backgroundColor,
+        flagSize: 22,
+        borderRadius: BorderRadius.circular(20),
+        textStyle: TextStyle(color: context.theme.greyColor),
+        inputDecoration: InputDecoration(
+          labelStyle: TextStyle(color: context.theme.greyColor),
+          prefixIcon: const Icon(
+            Icons.language,
+            color: CustomColors.greenDark,
+          ),
+          hintText: "Search Country Code",
+          enabledBorder: UnderlineInputBorder(
+            borderSide:
+                BorderSide(color: context.theme.greyColor!.withOpacity(0.3)),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: CustomColors.greenDark),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     countryNameController = TextEditingController(text: 'Nepal');
-    countryCodeController = TextEditingController();
+    countryCodeController = TextEditingController(text: "977");
     phoneNumberController = TextEditingController();
     super.initState();
   }
@@ -43,17 +82,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-            splashColor: Colors.transparent,
-            icon: Icon(
-              Icons.more_vert,
-              color: context.theme.greyColor,
-            ),
-            splashRadius: 22,
-            iconSize: 22,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 40),
+          CustomIconButton(
+            onTap: () {},
+            icon: Icons.more_vert,
           )
         ],
       ),
@@ -82,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             child: CustomTextField(
               controller: countryNameController,
-              onTap: () {},
+              onTap: () => showCountryCodePicker(),
               readOnly: true,
               suffixIcon: const Icon(
                 Icons.arrow_drop_down,
@@ -92,8 +123,50 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(
             height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 70,
+                  child: CustomTextField(
+                    onTap: () => showCountryCodePicker(),
+                    controller: countryCodeController,
+                    prefixText: "+",
+                    readOnly: true,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: CustomTextField(
+                    onTap: () {},
+                    controller: phoneNumberController,
+                    hintText: 'Phone Number',
+                    textAlign: TextAlign.left,
+                    readOnly: false,
+                    keyboardType: TextInputType.number,
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            "carrier charge may apply",
+            style: TextStyle(color: context.theme.greyColor),
           )
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: CustomElevatedButton(
+        onPressed: () {},
+        text: 'NEXT',
+        buttonWidth: 90,
       ),
     );
   }

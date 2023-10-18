@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:whatsapp_messenger/common/extension/custom_theme.dart';
 import 'package:whatsapp_messenger/common/utils/colors.dart';
 
@@ -16,6 +19,11 @@ ThemeData darkTheme() {
         elevation: 0,
         shadowColor: Colors.transparent,
       ),
+    ),
+    appBarTheme: const AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.light),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: CustomColors.greyBackground,

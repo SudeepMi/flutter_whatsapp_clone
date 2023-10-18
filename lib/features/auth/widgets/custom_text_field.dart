@@ -32,9 +32,10 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       readOnly: readOnly ?? true,
       textAlign: textAlign ?? TextAlign.center,
-      keyboardType: readOnly == null ? keyboardType : null,
+      keyboardType: readOnly == false ? keyboardType : null,
       onChanged: onChanged,
       decoration: InputDecoration(
+        hintText: hintText,
         isDense: true,
         prefixText: prefixText,
         suffix: suffixIcon,
