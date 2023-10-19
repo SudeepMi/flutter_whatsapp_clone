@@ -26,7 +26,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   sendCodeToPhone() {
     final phoneNumber = phoneNumberController.text;
     final countryCode = countryCodeController.text;
-    final countryName = countryNameController.text;
 
     if (phoneNumber.length < 9) {
       return showAlertDialog(

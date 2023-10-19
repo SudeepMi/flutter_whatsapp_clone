@@ -38,7 +38,7 @@ class AuthRepo {
         Routes.userinfo,
         (route) => false,
       );
-    } on FirebaseAuth catch (e) {
+    } on FirebaseAuthException catch (e) {
       showAlertDialog(
         context: context,
         message: e.toString(),
