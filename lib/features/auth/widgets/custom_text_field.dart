@@ -11,7 +11,7 @@ class CustomTextField extends StatelessWidget {
     this.textAlign,
     this.keyboardType,
     this.prefixText,
-    required this.onTap,
+    this.onTap,
     this.suffixIcon,
     this.onChanged,
     this.fontSize,
@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
   final TextAlign? textAlign;
   final TextInputType? keyboardType;
   final String? prefixText;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget? suffixIcon;
   final Function(String)? onChanged;
   final double? fontSize;

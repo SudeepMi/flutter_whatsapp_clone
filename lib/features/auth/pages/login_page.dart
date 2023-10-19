@@ -2,37 +2,45 @@
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_messenger/common/extension/custom_theme.dart';
 import 'package:whatsapp_messenger/common/helper/show_alert_dialog.dart';
 import 'package:whatsapp_messenger/common/utils/colors.dart';
 import 'package:whatsapp_messenger/common/widgets/custom_icon_button.dart';
+import 'package:whatsapp_messenger/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp_messenger/features/auth/widgets/custom_text_field.dart';
 import 'package:whatsapp_messenger/features/welcome/widgets/elevated_button.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   late TextEditingController countryNameController;
   late TextEditingController countryCodeController;
   late TextEditingController phoneNumberController;
 
   sendCodeToPhone() {
-    final phone = phoneNumberController.text;
-    // final name = countryNameController.text;
+    final phoneNumber = phoneNumberController.text;
+    final countryCode = countryCodeController.text;
+    final countryName = countryNameController.text;
 
-    if (phone.length < 9) {
+    if (phoneNumber.length < 9) {
       return showAlertDialog(
           context: context, message: "phone number is not valid");
     }
-    if (phone.isEmpty) {
+    if (phoneNumber.isEmpty) {
       return showAlertDialog(
           context: context, message: "phone number is not valid");
     }
+
+    ref.read(authControllerProivder).sendSmsCode(
+          context: context,
+          phoneNumber: '+$countryCode$phoneNumber',
+        );
   }
 
   showCountryCodePicker() {
