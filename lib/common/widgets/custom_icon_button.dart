@@ -34,7 +34,7 @@ class CustomIconButton extends StatelessWidget {
         splashColor: Colors.transparent,
         icon: Icon(
           icon,
-          color: iconColor ?? context.theme.greyColor,
+          color: iconColor ?? Theme.of(context).iconTheme.color,
         ),
         splashRadius: (minWidth ?? 45) - 25,
         iconSize: iconSize ?? 22,

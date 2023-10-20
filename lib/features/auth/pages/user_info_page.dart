@@ -28,30 +28,30 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
   File? imageCamera;
   Uint8List? imageGallery;
 
-  // late TextEditingController usernameController;
+  late TextEditingController usernameController;
 
-  // saveUserDataToFirebase() {
-  //   String username = usernameController.text;
-  //   if (username.isEmpty) {
-  //     return showAlertDialog(
-  //       context: context,
-  //       message: 'Please provide a username',
-  //     );
-  //   } else if (username.length < 3 || username.length > 20) {
-  //     return showAlertDialog(
-  //       context: context,
-  //       message: 'A username length should be between 3-20',
-  //     );
-  //   }
+  saveUserDataToFirebase() {
+    String username = usernameController.text;
+    if (username.isEmpty) {
+      return showAlertDialog(
+        context: context,
+        message: 'Please provide a username',
+      );
+    } else if (username.length < 3 || username.length > 20) {
+      return showAlertDialog(
+        context: context,
+        message: 'A username length should be between 3-20',
+      );
+    }
 
-  //   ref.read(authControllerProivder).saveUserInfoToFirestore(
-  //         username: username,
-  //         profileImage:
-  //             imageCamera ?? imageGallery ?? widget.profileImageUrl ?? '',
-  //         context: context,
-  //         mounted: mounted,
-  //       );
-  // }
+    ref.read(authControllerProivder).saveUserInfoToFirestore(
+          username: username,
+          profileImage:
+              imageCamera ?? imageGallery ?? widget.profileImageUrl ?? '',
+          context: context,
+          mounted: mounted,
+        );
+  }
 
   imagePickerTypeBottomSheet() {
     return showModalBottomSheet(
@@ -163,13 +163,13 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
 
   @override
   void initState() {
-    // usernameController = TextEditingController();
+    usernameController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    // usernameController.dispose();
+    usernameController.dispose();
     super.dispose();
   }
 
@@ -242,10 +242,11 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
             Row(
               children: [
                 const SizedBox(width: 20),
-                const Expanded(
+                Expanded(
                   child: CustomTextField(
-                    // controller: usernameController,
+                    controller: usernameController,
                     hintText: 'Type your name here',
+                    readOnly: false,
                     textAlign: TextAlign.start,
                     autoFocus: true,
                   ),
@@ -263,7 +264,7 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElevatedButton(
-        onPressed: () {},
+        onPressed: saveUserDataToFirebase,
         text: 'NEXT',
         buttonWidth: 90,
       ),
