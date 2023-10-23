@@ -29,6 +29,14 @@ class AuthController {
     );
   }
 
+  void updateUserPresence() {
+    return authRepo.updateUserPresence();
+  }
+
+  Stream<UserModel> getUserPresenceStatus({required String uid}) {
+    return authRepo.getUserPresenceStatus(uid: uid);
+  }
+
   void saveUserInfoToFirestore({
     required String username,
     required var profileImage,

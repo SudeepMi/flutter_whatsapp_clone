@@ -19,7 +19,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   late Timer timer;
 
   updateUserPresence() {
-    // ref.read(authControllerProivder).updateUserPresence();
+    ref.read(authControllerProivder).updateUserPresence();
   }
 
   @override

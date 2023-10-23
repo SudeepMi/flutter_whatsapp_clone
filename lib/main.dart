@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -7,8 +8,6 @@ import 'package:whatsapp_messenger/common/routes/routes.dart';
 import 'package:whatsapp_messenger/common/theme/dark_theme.dart';
 import 'package:whatsapp_messenger/common/theme/light_theme.dart';
 import 'package:whatsapp_messenger/features/auth/controller/auth_controller.dart';
-import 'package:whatsapp_messenger/features/auth/pages/user_info_page.dart';
-import 'package:whatsapp_messenger/features/contact/pages/contact_page.dart';
 import 'package:whatsapp_messenger/features/home/pages/home_page.dart';
 import 'package:whatsapp_messenger/features/welcome/pages/welcome_page.dart';
 import 'package:whatsapp_messenger/firebase_options.dart';
@@ -16,8 +15,12 @@ import 'package:whatsapp_messenger/firebase_options.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Firebase.initializeApp(
+  var app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseAuth.instanceFor(app: app).setSettings(
+    appVerificationDisabledForTesting: true,
+    forceRecaptchaFlow: true,
   );
   runApp(const ProviderScope(
     child: MyApp(),

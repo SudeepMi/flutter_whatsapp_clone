@@ -31,7 +31,9 @@ class ContactRepo {
             // log(contact.displayName);
             var firebaseContact = UserModel.fromMap(firebaseContactData.data());
             if (contact.phones.isNotEmpty) {
-              if (contact.phones[0].number.replaceAll(' ', '') ==
+              if (contact.phones[0].number
+                      .replaceAll(' ', '')
+                      .replaceAll("-", "") ==
                   firebaseContact.phoneNumber) {
                 firebaseContacts.add(firebaseContact);
                 isContactFound = true;
@@ -43,13 +45,13 @@ class ContactRepo {
             if (!isContactFound) {
               phoneContacts.add(
                 UserModel(
-                  username: contact.displayName,
-                  uid: '',
-                  profileImageUrl: '',
-                  active: false,
-                  phoneNumber: contact.phones[0].number.replaceAll(' ', ''),
-                  groupId: [],
-                ),
+                    username: contact.displayName,
+                    uid: '',
+                    profileImageUrl: '',
+                    active: false,
+                    phoneNumber: contact.phones[0].number.replaceAll(' ', ''),
+                    groupId: [],
+                    lastSeen: 0),
               );
             }
           }

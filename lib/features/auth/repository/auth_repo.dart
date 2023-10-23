@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_messenger/common/helper/show_alert_dialog.dart';
@@ -13,6 +14,7 @@ final authRepoProvider = Provider((ref) {
     auth: FirebaseAuth.instance,
     firestore: FirebaseFirestore.instance,
     ref: ref,
+    realtime: FirebaseDatabase.instance,
   );
 });
 
@@ -20,12 +22,48 @@ class AuthRepo {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
   final ProviderRef ref;
+  final FirebaseDatabase realtime;
 
   AuthRepo({
     required this.auth,
     required this.firestore,
     required this.ref,
+    required this.realtime,
   });
+
+  Stream<UserModel> getUserPresenceStatus({required String uid}) {
+    return firestore
+        .collection("users")
+        .doc(uid)
+        .snapshots()
+        .map((event) => UserModel.fromMap(event.data()!));
+  }
+
+  void updateUserPresence() async {
+    Map<String, dynamic> online = {
+      'active': true,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch
+    };
+
+    Map<String, dynamic> offline = {
+      'active': false,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch,
+    };
+
+    final connectedRef = realtime.ref('.info/connected');
+    connectedRef.onValue.listen((event) async {
+      final isConnected = event.snapshot.value as bool? ?? false;
+      if (isConnected) {
+        await realtime.ref().child(auth.currentUser!.uid).update(online);
+      } else {
+        await realtime
+            .ref()
+            .child(auth.currentUser!.uid)
+            .onDisconnect()
+            .update(offline);
+      }
+    });
+  }
 
   Future<UserModel?> getCurrentUserInfo() async {
     UserModel? user;
@@ -100,7 +138,7 @@ class AuthRepo {
       Navigator.of(context).pushNamedAndRemoveUntil(
         Routes.userinfo,
         (route) => false,
-        arguments: user?.profileImageUrl,
+        arguments: user?.profileImageUrl ?? "",
       );
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);

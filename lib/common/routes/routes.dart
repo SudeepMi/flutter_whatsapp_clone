@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_messenger/common/models/user_model.dart';
 import 'package:whatsapp_messenger/features/auth/pages/login_page.dart';
 import 'package:whatsapp_messenger/features/auth/pages/user_info_page.dart';
 import 'package:whatsapp_messenger/features/auth/pages/verification_page.dart';
+import 'package:whatsapp_messenger/features/chat/pages/chat_page.dart';
 import 'package:whatsapp_messenger/features/contact/pages/contact_page.dart';
 import 'package:whatsapp_messenger/features/home/pages/home_page.dart';
 import 'package:whatsapp_messenger/features/welcome/pages/welcome_page.dart';
@@ -13,6 +15,7 @@ class Routes {
   static const String userinfo = 'user-info';
   static const String home = 'home';
   static const String contact = 'contact';
+  static const String chat = 'chat';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -39,6 +42,9 @@ class Routes {
         return MaterialPageRoute(builder: (context) => const HomePage());
       case contact:
         return MaterialPageRoute(builder: (context) => const ContactPage());
+      case chat:
+        UserModel user = settings.arguments as UserModel;
+        return MaterialPageRoute(builder: (context) => ChatPage(user: user));
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(
