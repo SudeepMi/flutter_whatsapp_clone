@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_messenger/common/models/user_model.dart';
 import 'package:whatsapp_messenger/common/widgets/custom_icon_button.dart';
+import 'package:whatsapp_messenger/features/auth/controller/auth_controller.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends ConsumerWidget {
   final UserModel user;
   const ChatPage({super.key, required this.user});
 
@@ -13,15 +15,15 @@ class ChatPage extends StatelessWidget {
     String mesage = differenceDuration.inSeconds > 59
         ? differenceDuration.inMinutes > 59
             ? differenceDuration.inDays > 23
-                ? "${differenceDuration.inDays} ${differenceDuration.inDays == 1 ? 'day' : 'days'}"
-                : "${differenceDuration.inHours} ${differenceDuration.inHours == 1 ? 'hour' : 'hours'}"
-            : "${differenceDuration.inMinutes} ${differenceDuration.inMinutes == 1 ? 'minute' : 'miutes'}"
-        : "few moments ago";
+                ? "${differenceDuration.inDays} ${differenceDuration.inDays == 1 ? 'day' : 'days'} ago"
+                : "${differenceDuration.inHours} ${differenceDuration.inHours == 1 ? 'hour' : 'hours'} ago"
+            : "${differenceDuration.inMinutes} ${differenceDuration.inMinutes == 1 ? 'minute' : 'miutes'} ago"
+        : "online";
     return mesage;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -52,10 +54,31 @@ class ChatPage extends StatelessWidget {
             const SizedBox(
               height: 3,
             ),
-            const Text(
-              "Last seen 3:00 PM",
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
-            ),
+            StreamBuilder(
+              stream: ref
+                  .read(authControllerProivder)
+                  .getUserPresenceStatus(uid: user.uid),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState != ConnectionState.active) {
+                  return const Text(
+                    "connecting...",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                final singleUserModel = snapshot.data!;
+                final msg = lastSeenMessage(singleUserModel.lastSeen);
+                return Text(
+                  msg,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            )
           ],
         ),
         actions: [
