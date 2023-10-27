@@ -8,7 +8,7 @@ ThemeData lightTheme() {
   return base.copyWith(
     backgroundColor: CustomColors.backgroundLight,
     scaffoldBackgroundColor: CustomColors.backgroundLight,
-    extensions: [CustomTheme.lightMode],
+    extensions: [CustomThemeExtension.lightMode],
     appBarTheme: const AppBarTheme(
       backgroundColor: CustomColors.greenLight,
       titleTextStyle: TextStyle(
@@ -30,8 +30,6 @@ ThemeData lightTheme() {
           width: 2,
         ),
       ),
-      unselectedLabelColor: Color(0xFFB3D9D2),
-      labelColor: Colors.white,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:whatsapp_messenger/common/extension/custom_theme.dart';
@@ -8,18 +6,9 @@ import 'package:whatsapp_messenger/common/utils/colors.dart';
 ThemeData darkTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
-    extensions: [CustomTheme.darkMode],
     backgroundColor: CustomColors.backgroundDark,
     scaffoldBackgroundColor: CustomColors.backgroundDark,
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: CustomColors.greenDark,
-        foregroundColor: CustomColors.backgroundDark,
-        splashFactory: NoSplash.splashFactory,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-      ),
-    ),
+    extensions: [CustomThemeExtension.darkMode],
     appBarTheme: const AppBarTheme(
       backgroundColor: CustomColors.greyBackground,
       titleTextStyle: TextStyle(
@@ -29,10 +18,10 @@ ThemeData darkTheme() {
       ),
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
       ),
       iconTheme: IconThemeData(
-        color: CustomColors.greenDark,
+        color: CustomColors.greyDark,
       ),
     ),
     tabBarTheme: const TabBarTheme(
@@ -45,6 +34,15 @@ ThemeData darkTheme() {
       unselectedLabelColor: CustomColors.greyDark,
       labelColor: CustomColors.greenDark,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: CustomColors.greenDark,
+        foregroundColor: CustomColors.backgroundDark,
+        splashFactory: NoSplash.splashFactory,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+      ),
+    ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: CustomColors.greyBackground,
       modalBackgroundColor: CustomColors.greyBackground,
@@ -54,11 +52,23 @@ ThemeData darkTheme() {
         ),
       ),
     ),
-    dialogBackgroundColor: CustomColors.backgroundDark,
+    dialogBackgroundColor: CustomColors.greyBackground,
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
       ),
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: CustomColors.greenDark,
+      foregroundColor: Colors.white,
+    ),
+    listTileTheme: const ListTileThemeData(
+      iconColor: CustomColors.greyDark,
+      tileColor: CustomColors.backgroundDark,
+    ),
+    switchTheme: const SwitchThemeData(
+      thumbColor: MaterialStatePropertyAll(CustomColors.greyDark),
+      trackColor: MaterialStatePropertyAll(Color(0xFF344047)),
     ),
   );
 }

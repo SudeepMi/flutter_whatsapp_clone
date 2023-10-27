@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:whatsapp_messenger/common/models/user_model.dart';
 import 'package:whatsapp_messenger/features/auth/pages/login_page.dart';
 import 'package:whatsapp_messenger/features/auth/pages/user_info_page.dart';
@@ -49,7 +50,12 @@ class Routes {
         return MaterialPageRoute(builder: (context) => ChatPage(user: user));
       case profile:
         UserModel user = settings.arguments as UserModel;
-        return MaterialPageRoute(builder: (context) => ProfilePage(user: user));
+        return PageTransition(
+          child: ProfilePage(user: user),
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 500),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(
